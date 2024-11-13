@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "BroadcastServiceApplication",
+            "request": "launch",
+            "mainClass": "com.cs7319.finalproject.broadcast_service.BroadcastServiceApplication",
+            "projectName": "broadcast-service"
+        },
+        {
+            "type": "java",
+            "name": "NoteServiceApplication",
+            "request": "launch",
+            "mainClass": "com.cs7319.finalproject.note_service.NoteServiceApplication",
+            "projectName": "com.cs7319.finalproject-user-service"
+        },
+        {
+            "type": "java",
+            "name": "UserServiceApplication",
+            "request": "launch",
+            "mainClass": "com.cs7319.finalproject.user_service.UserServiceApplication",
+            "projectName": "user-service"
+        }
+    ]
+}
