@@ -1,0 +1,233 @@
+@startuml
+package "note_service" {
+class NotesController {
+	- NoteService noteService
+
+	+ createNote(note: NoteDto): Note
+	+ updateNote(id: String, updatedNote: NoteDto): Note
+	+ deleteNote(id: String): String
+	+ getNoteById(id: String): Note
+	+ getNotes(): List<Note>
+}
+
+class NoteService {
+	- NoteRepository noteRepository
+	- PublishService publishService
+	- DateTimeFormatter formatter
+
+	+ createNote(note: NoteDto): Note
+	+ updateNote(id: String, updatedNote: NoteDto): Note
+	+ deleteNote(id: String): void
+	+ getNoteById(id: String): Note
+	+ getNotes(): List<Note>
+}
+
+class PublishService {
+	- String topicArn
+	- SnsClient snsClient
+
+	+ PublishService(snsClient: SnsClient)
+	+ publishMessage(action: Action, note: Note): String
+	+ buildPublishMessage(action: Action, note: Note): String
+}
+
+class NoteRepository {
+	- DynamoDbTable<Note> noteTable
+
+	+ NoteRepository(enhancedClient: DynamoDbEnhancedClient)
+	+ create(note: Note): Note
+	+ update(note: Note): Note
+	+ deleteById(id: String)
+	+ findById(id: String): Note
+	+ findAll(): List<Note>
+}
+
+class Note {
+	- String id
+	- String title
+	- String content
+	- String created
+	- String lastUpdated
+}
+
+class NoteDto {
+	- String title
+	- String content
+
+	+ getTitle(): String
+	+ setTitle(title: String)
+	+ getContent(): String
+	+ setContent(content: String)
+}
+
+    class NotePublish {
+        - Action action
+        - Note note
+
+        + setAction(action: Action): void
+        + setNote(note: Note): void
+    }
+
+class DynamoDBConfig {
+	- String accessKey
+	- String secretKey
+	- String region
+
+	+ amazonDynamoDB(): DynamoDbClient
+	+ dynamoDbEnhancedClient(dynamoDbClient: DynamoDbClient): DynamoDbEnhancedClient
+}
+
+    class SnsConfig {
+        - String accessKeyId
+        - String secretAccessKey
+        - String region
+
+        + snsClient(): SnsClient
+    }
+
+package "Third-Party (AWS SDK)" {
+	class SnsClient {
+	}
+}
+
+NotesController --> NoteDto: "accepts"
+NotesController --> Note : "returns"
+NotesController --> NoteService : "uses"
+
+NoteService --> NoteRepository : "uses"
+NoteService --> PublishService : "uses"
+NoteService --> Note : "manages"
+NoteService --> NoteDto : "accepts"
+
+NoteRepository --> DynamoDBConfig : "uses"
+NoteRepository --> Note : "persists"
+
+PublishService --> NotePublish : "transmits"
+PublishService --> SnsClient : "uses"
+
+SnsConfig --> SnsClient : "initializes"
+}
+
+package "user_service" {
+
+class UserController {
+	- UserService userService
+
+	+ registerUser(user: User): Long
+	+ login(request: LoginRequest): User
+	+ getUserById(id: Long): User
+	+ getUserByEmail(email: String): User
+	+ deleteUser(id: Long): Long
+}
+
+class UserService {
+	- UserRepository userRepository
+
+	+ createUser(user: User): User
+	+ getUserById(id: Long): Optional<User>
+	+ getUserByEmail(emailAddress: String): User
+	+ deleteUser(id: Long)
+	+ login(emailAddress: String, password: String): User
+}
+
+interface UserRepository {
+	+ findByEmail(email: String): User
+}
+
+class User {
+	- Long id
+	- String email
+	- String password
+	- LocalDateTime createdAt
+	- LocalDateTime updatedAt
+
+	+ getId(): Long
+	+ setId(id: Long)
+	+ getEmail(): String
+	+ setEmail(email: String)
+	+ getPassword(): String
+	+ setPassword(password: String)
+	+ getCreatedAt(): LocalDateTime
+	+ setCreatedAt(createdAt: LocalDateTime)
+	+ getUpdatedAt(): LocalDateTime
+	+ setUpdatedAt(updatedAt: LocalDateTime)
+	# onCreate(): void
+	# onUpdate(): void
+}
+
+class LoginRequest {
+	- String emailAddress
+	- String password
+
+	+ getEmailAddress(): String
+	+ getPassword(): String
+}
+
+UserController --> UserService: "uses"
+UserController --> User: "returns"
+UserController --> LoginRequest: "accepts"
+
+UserService --> User: "manages"
+UserService --> LoginRequest: "accepts"
+UserService --> UserRepository: "uses"
+
+UserRepository --> User: "persists"
+}
+
+package "broadcast_service" {
+
+class SubscribeListener {
+	- SubscribeService subscribeService
+
+	+ SubscribeListener(subscribeService: SubscribeService)
+	+ afterConnectionEstablished(session: WebSocketSession): void
+	+ afterConnectionClosed(session: WebSocketSession, status: CloseStatus): void
+}
+
+class SubscribeService {
+	- SqsClient sqsClient
+	- String queueUrl
+	- CopyOnWriteArraySet<WebSocketSession> sessions
+
+	+ SubscribeService(sqsClient: SqsClient, queueUrl: String)
+	+ pollQueue(): void
+	+ addSession(session: WebSocketSession): void
+	+ removeSession(session: WebSocketSession): void
+	- broadcastMessage(message: String): void
+}
+
+class WebSocketConfig {
+	- SubscribeService subscribeService
+
+	+ WebSocketConfig(subscribeService: SubscribeService)
+	+ registerWebSocketHandlers(registry: WebSocketHandlerRegistry): void
+}
+
+class SqsClientConfig {
+	- String accessKey
+	- String secretAccessKey
+	- String region
+
+	+ sqsClient(): SqsClient
+}
+
+package "Third-Party (AWS SDK)" {
+	class SqsClient {
+	}
+}
+
+package "Third-Party (Spring)" {
+	class WebSocketSession{
+	}
+}
+
+SqsClientConfig --> SqsClient : "initializes"
+WebSocketConfig --> SubscribeListener: "initializes"
+
+SubscribeListener --> SubscribeService: "uses"
+
+SubscribeService --> SqsClient : "uses"
+SubscribeService --> WebSocketSession : "manages"
+
+}
+@enduml

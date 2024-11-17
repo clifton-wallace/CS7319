@@ -1,0 +1,19 @@
+@startuml
+
+component "Web Client" as web_client
+component "Broadcast Service" as broadcast_service
+component "User Service" as user_service
+component "Note Service" as note_service
+
+note right of note_service: Manages CRUD operations on notes and publishes updates to Broadcast Service
+note right of broadcast_service: Facilitates real-time updates via WebSocket
+note left of user_service: Handles user authentication and management
+
+
+note_service --> broadcast_service: "publish note updates"
+
+web_client --> user_service: "authenticate and manage users"
+web_client --> note_service: "CRUD operations on notes"
+web_client--> broadcast_service: "subscribe/listen for note updates via web socket"
+
+@enduml
