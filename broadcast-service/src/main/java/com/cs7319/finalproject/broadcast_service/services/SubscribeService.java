@@ -31,6 +31,7 @@ public class SubscribeService {
     public void pollQueue() {
         ReceiveMessageRequest request = ReceiveMessageRequest.builder()
                 .queueUrl(queueUrl)
+                .waitTimeSeconds(3) 
                 .maxNumberOfMessages(10)
                 .build();
 

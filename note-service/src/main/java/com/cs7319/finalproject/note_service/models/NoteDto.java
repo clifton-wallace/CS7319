@@ -5,6 +5,7 @@ public class NoteDto {
 
     private String title;
     private String content;
+    private long userId;
 
     public String getTitle() {
         return title;
@@ -20,5 +21,13 @@ public class NoteDto {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

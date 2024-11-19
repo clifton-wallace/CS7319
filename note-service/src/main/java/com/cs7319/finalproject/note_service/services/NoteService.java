@@ -36,6 +36,8 @@ public class NoteService {
         newNote.setId(UUID.randomUUID().toString());
         newNote.setTitle(note.getTitle());
         newNote.setContent(note.getContent());
+        newNote.setCreatedByUserId(note.getUserId());
+        newNote.setLastUpdatedByUserId(note.getUserId());
         newNote.setCreated(LocalDateTime.now().format(formatter));
         newNote.setlastUpdated(LocalDateTime.now().format(formatter));
         newNote = noteRepository.create(newNote);
@@ -56,6 +58,7 @@ public class NoteService {
         }
         existingNote.setTitle(updatedNote.getTitle());
         existingNote.setContent(updatedNote.getContent());
+        existingNote.setLastUpdatedByUserId(updatedNote.getUserId());
         existingNote.setlastUpdated(LocalDateTime.now().format(formatter));
         existingNote =  noteRepository.update(existingNote);
         

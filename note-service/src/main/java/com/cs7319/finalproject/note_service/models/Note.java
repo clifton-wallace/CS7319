@@ -15,6 +15,8 @@ public class Note {
     private List<NoteVersion> versions;
     private String created;
     private String lastUpdated;
+    private long createdByUserId;
+    private long lastUpdatedByUserId;
 
     @DynamoDbAttribute(value = "id")
     @DynamoDbPartitionKey
@@ -65,5 +67,21 @@ public class Note {
 
     public void setlastUpdated(String lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    public long getCreatedByUserId() {
+        return createdByUserId;
+    }
+
+    public void setCreatedByUserId(long createdByUserId) {
+        this.createdByUserId = createdByUserId;
+    }
+
+    public long getLastUpdatedByUserId() {
+        return lastUpdatedByUserId;
+    }
+
+    public void setLastUpdatedByUserId(long lastUpdatedByUserId) {
+        this.lastUpdatedByUserId = lastUpdatedByUserId;
     }
 }
