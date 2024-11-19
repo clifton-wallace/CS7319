@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cs7319.finalproject.user_service.models.ApiResponse;
 import com.cs7319.finalproject.user_service.models.LoginRequest;
 import com.cs7319.finalproject.user_service.models.User;
+import com.cs7319.finalproject.user_service.models.UserDto;
 import com.cs7319.finalproject.user_service.services.UserService;
 
 // Controller for accessing user functions such as create, delete, and login.
@@ -30,9 +31,14 @@ public class UserController {
 
     // Method Add/Registers A new User
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<Long>> registerUser(@RequestBody User user) {
+    public ResponseEntity<ApiResponse<Long>> registerUser(@RequestBody UserDto user) {
         try {
-            User newUser = userService.createUser(user); 
+            User newUser = new User();
+            newUser.setEmail(user.getEmail());
+            newUser.setPassword(user.getPassword());
+            newUser.setRole(user.getRole());
+            
+            newUser = userService.createUser(newUser); 
             return ResponseEntity.ok(
                 new ApiResponse<>(true, "User registered successfully", newUser.getId()));
         } catch (Exception e) {
