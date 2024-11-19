@@ -1,0 +1,142 @@
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+.layout main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.layout main .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  border-left: 1px solid #e0e0e0;
+}
+
+.layout main .header .actions {
+  display: flex;
+  column-gap: 0.5rem;
+  align-items: center;
+}
+
+.layout main .header .note-info {
+  line-height: 1.3;
+}
+
+.layout main .header .note-info h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.layout main .header .note-info p {
+  font-size: 0.875rem;
+  color: #666666;
+}
+
+.layout main .document-area {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  padding: 2rem;
+}
+
+.layout main .document {
+  padding: 3rem;
+  width: 800px;
+  min-height: 900px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+.document textarea {
+  width: 100%;
+  height: 100%;
+  color: #000000;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: none;
+  border: none;
+  background-color: transparent;
+}
+
+.document textarea:focus {
+  outline: none;
+}
+
+.document #docTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  border: none;
+  background-color: transparent;
+}
+
+.document #docTitle:focus {
+  outline: none;
+}
+
+.sidebar {
+  flex: 0 0 250px;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.sidebar h1 {
+  padding: 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.sidebar h1 a {
+  text-decoration: none;
+  color: #000000;
+}
+
+.sidebar nav {
+  padding: 0.5rem;
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.sidebar .actions {
+  margin-top: auto;
+  padding: 0.5rem;
+}
+
+.sidebar .actions .btn {
+  width: 100%;
+}
+
+.sidebar nav ul li {
+  list-style: none;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar nav ul li a,
+.sidebar nav ul li button {
+  text-align: left;
+  width: 100%;
+  display: block;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  color: #000000;
+  transition: background-color 0.2s;
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li button:hover {
+  background-color: #f4f4f4;
+}
