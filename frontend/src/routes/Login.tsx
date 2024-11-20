@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { loginUser } from "../helpers/users";
 import "../styles/login.css";
+import { useState } from "react";
+import useUser from "../hooks/use-user";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
+  const { login } = useUser();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -14,10 +16,12 @@ export default function Login() {
     const email = form.get("email") as string;
     const password = form.get("password") as string;
 
-    const { data } = await loginUser({ emailAddress: email, password });
-    console.log(data);
+    const success = await login(email, password);
 
-    setLoading(false);
+    if (!success) {
+      alert("Invalid email or password");
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,6 +44,9 @@ export default function Login() {
         <button className="btn" type="submit">
           {loading ? "Loading..." : "Login"}
         </button>
+        <p>
+          Don't have an account? <Link to="/register">Register</Link>
+        </p>
       </form>
     </main>
   );

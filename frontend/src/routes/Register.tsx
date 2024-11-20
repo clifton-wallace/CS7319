@@ -1,9 +1,10 @@
 import { useState } from "react";
 import "../styles/login.css";
-// import { registerUser } from "../helpers/users";
+import useUser from "../hooks/use-user";
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
+  const { register } = useUser();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -11,7 +12,7 @@ export default function Register() {
     setLoading(true);
 
     const form = new FormData(event.currentTarget);
-    // const email = form.get("emailAddress") as string;
+    const email = form.get("emailAddress") as string;
     const password = form.get("password") as string;
     const confirmPassword = form.get("confirm-password") as string;
 
@@ -21,12 +22,14 @@ export default function Register() {
       return;
     }
 
-    // const { data } = await registerUser({ : email, password });
-    // console.log(data);
+    const success = await register(email, password);
 
-    setLoading(false);
+    if (!success) {
+      alert("Failed to register");
+      setLoading(false);
+    }
   };
-  
+
   return (
     <main className="login">
       <h1>Register account</h1>

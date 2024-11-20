@@ -4,7 +4,7 @@ const USERS_ENDPOINT = import.meta.env.VITE_USERS_ENDPOINT as string;
 
 export async function registerUser(
   user: RegisterRequest
-): Promise<ApiResponse<UserType>> {
+): Promise<ApiResponse<number>> {
   const response = await fetch(`${USERS_ENDPOINT}/register`, {
     method: "POST",
     headers: {
@@ -13,7 +13,7 @@ export async function registerUser(
     body: JSON.stringify(user),
   });
 
-  return response.json() as Promise<ApiResponse<UserType>>;
+  return response.json() as Promise<ApiResponse<number>>;
 }
 
 export async function loginUser(
@@ -26,6 +26,12 @@ export async function loginUser(
     },
     body: JSON.stringify(user),
   });
+
+  return response.json() as Promise<ApiResponse<UserType>>;
+}
+
+export async function getUserById(id: number): Promise<ApiResponse<UserType>> {
+  const response = await fetch(`${USERS_ENDPOINT}/${id}`);
 
   return response.json() as Promise<ApiResponse<UserType>>;
 }

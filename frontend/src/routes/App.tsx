@@ -5,6 +5,7 @@ import { createNote, deleteNote, getNotes } from "../helpers/notes";
 import useNotes from "../hooks/use-notes";
 import NoteEditor from "../components/NoteEditor";
 import moment from "moment-timezone";
+import useUser from "../hooks/use-user";
 
 export default function App() {
   const {
@@ -16,6 +17,7 @@ export default function App() {
     useSocket,
     setUseSocket,
   } = useNotes();
+  const { user, logout } = useUser();
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -31,7 +33,14 @@ export default function App() {
   };
 
   const handleCreateNote = async () => {
-    const { data } = await createNote({ title: "New Note", content: "" });
+    if (!user) return;
+
+    const { data } = await createNote({
+      title: "New Note",
+      content: "",
+      userId: user.id,
+    });
+
     setNotes([...notes, data]);
   };
 
@@ -77,7 +86,9 @@ export default function App() {
           </ul>
         </nav>
         <div className="actions">
-          <button className="btn">Logout</button>
+          <button className="btn" onClick={() => logout()}>
+            Logout
+          </button>
         </div>
       </div>
       <main>

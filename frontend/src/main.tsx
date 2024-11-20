@@ -5,24 +5,37 @@ import App from "./routes/App.tsx";
 import Login from "./routes/Login.tsx";
 import Register from "./routes/Register.tsx";
 import NotesProvider from "./providers/notes-provider.tsx";
+import UserProvider from "./providers/user-provider.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <UserProvider>
+        <NotesProvider>
+          <App />
+        </NotesProvider>
+      </UserProvider>
+    ),
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <UserProvider>
+        <Login />
+      </UserProvider>
+    ),
   },
   {
     path: "/register",
-    element: <Register />,
+    element: (
+      <UserProvider>
+        <Register />
+      </UserProvider>
+    ),
   },
 ]);
 
 createRoot(document.getElementById("root")!).render(
-  <NotesProvider>
-    <RouterProvider router={router} />
-  </NotesProvider>
+  <RouterProvider router={router} />
 );

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import NotesContext from "../context/notes";
 import { NotesBroadcast, NoteType } from "../types";
+import useUser from "../hooks/use-user";
 
 type Props = {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ export default function NotesProvider({ children }: Props) {
   const [selectedNote, setSelectedNote] = useState<NoteType | null>(null);
   const [useSocket, setUseSocket] = useState(false);
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  const { user } = useUser();
 
   const updateNote = (note: NoteType) => {
     const newNotes = notes.map((n) => (n.id === note.id ? note : n));
@@ -38,18 +40,21 @@ export default function NotesProvider({ children }: Props) {
       );
 
       socket.addEventListener("message", (event) => {
+        if (!user) return;
         const { note, action } = JSON.parse(event.data) as NotesBroadcast;
 
         if (action === "UPDATE") {
-          updateNote(note);
+          if (note.lastUpdatedByUserId != user.id) {
+            updateNote(note);
+          }
         } else if (action === "DELETE") {
           deleteNote(note.id);
         } else if (action === "CREATE") {
           setNotes([...notes, note]);
-        }
 
-        if (selectedNote?.id === note.id) {
-          setSelectedNote(note);
+          if (!selectedNote) {
+            setSelectedNote(note);
+          }
         }
 
         console.log("Message from server ", event.data);

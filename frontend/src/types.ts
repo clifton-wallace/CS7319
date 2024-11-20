@@ -11,11 +11,14 @@ export type NoteType = {
   versions: NoteVersionType[];
   created: string;
   lastUpdated: string;
+  createdByUserId: number;
+  lastUpdatedByUserId: number;
 };
 
 export type CreateNoteRequest = {
   title: string;
   content: string;
+  userId: number;
 }
 
 export type UserType = {
@@ -32,7 +35,11 @@ export type LoginRequest = {
   password: string;
 }
 
-export type RegisterRequest = Exclude<UserType, "id" | "createdAt" | "updatedAt">;
+export type RegisterRequest = {
+  email: string;
+  password: string;
+  role: "USER" | "ADMIN";
+};
 
 export type ApiResponse<T> = {
   success: boolean;

@@ -3,6 +3,7 @@ import { updateNote } from "../helpers/notes";
 import { useDebounce } from "use-debounce";
 import { useEffect, useState } from "react";
 import useNotes from "../hooks/use-notes";
+import useUser from "../hooks/use-user";
 
 type EditNoteProps = {
   note: NoteType;
@@ -13,13 +14,18 @@ export default function NoteEditor({ note }: EditNoteProps) {
   const [title, setTitle] = useState(note.title);
   const [currentText, setCurrentText] = useState(note.content);
   const [debouncedText] = useDebounce(currentText, 1000);
+  const { user } = useUser();
 
   useEffect(() => {
     const sendUpdate = async () => {
+      if (!user) return;
+
       const result = await updateNote(note.id, {
         title: note.title,
         content: debouncedText,
+        userId: user.id,
       });
+
       updateOurNote(result.data);
       console.log("Note updated");
     };
@@ -46,7 +52,14 @@ export default function NoteEditor({ note }: EditNoteProps) {
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.key === "Enter") {
-      const result = await updateNote(note.id, { title, content: currentText });
+      if (!user) return;
+
+      const result = await updateNote(note.id, {
+        title,
+        content: currentText,
+        userId: user.id,
+      });
+
       updateOurNote(result.data);
       console.log("Note title updated");
     }
