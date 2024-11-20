@@ -146,7 +146,8 @@ Recommend using the existing AWS resource `https://sqs.us-east-1.amazonaws.com/2
 1. Ensure Node.js and npm are installed (see above for download).
 2. CD into the `frontend` directory.
 3. Run `npm install` to install all required dependencies.
-4. To run the development server, execute `npm run dev`.
+4. Fill out `.env.example` with the secrets from above and rename to `.env.local`
+5. To run the development server, execute `npm run dev`.
 
 ### Compilation
 
