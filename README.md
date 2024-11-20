@@ -21,6 +21,8 @@ Our architecture builds upon shared components:
 - The Note Service uses a configuration flag to determine whether messages are published.
  -The Broadcast Service is specific to the Pub/Sub model.
 
+The web site is built using react which does not generate a standalone executable as it is a Javascript based platform.  Please see instructions below for building/running the web site.
+
 **IMPORTANT** There are a number of AWS hosted components in this solution. It is recommended that you use the AWS components that are already deployed (information is in the configuration files).  All access is using shared secrets (which is not best practice) but will enable you to use those components when you run locally.
 
 **IMPORTANT** We recommend that you run the web client locally and point to the public APIs.  It is difficult to run multiple web projects on a computer at one time. The APIs are available here:
