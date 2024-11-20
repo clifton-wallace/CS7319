@@ -12,7 +12,7 @@ Key features include:
   
 # Video
 
- Video available here: https://www.youtube.com/watch?v=2aWu_DLAR64
+ Video available here: [https://www.youtube.com/watch?v=2aWu_DLAR64](https://www.youtube.com/watch?v=MqHH50cLtQw)
  
 # Compiled Code and Executables
 All executables are located in the `executables` folder.
