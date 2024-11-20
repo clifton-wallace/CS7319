@@ -11,7 +11,15 @@ Key features include:
 
 ## Backend
 
-TODO: Implement this
+### APIs
+**Platform** Spring with Maven and Java
+**Download** 
+
+### AWS SQS
+
+### AWS SNS
+
+### AWS 
 
 ## Frontend
 
