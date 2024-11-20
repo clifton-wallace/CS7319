@@ -15,7 +15,7 @@ Key features include:
  Video available here: [https://www.youtube.com/watch?v=2aWu_DLAR64](https://www.youtube.com/watch?v=MqHH50cLtQw)
  
 # Compiled Code and Executables
-All executables are located in the `executables` folder.
+All executables are located in the `executable` folder.
 Our architecture builds upon shared components:
 - The User Service and Front End share the same executable. The front end includes a toggle switch within the application to enable the Pub/Sub model.
 - The Note Service uses a configuration flag to determine whether messages are published.
