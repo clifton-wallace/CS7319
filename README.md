@@ -9,7 +9,11 @@ Key features include:
 - An dashboard to manage and access notes.
 - Create, edit and delete notes.
 - (Pub/Sub only) Real-time updates for shared notes, enabling effortless teamwork and collaboration.
+  
+# Video
 
+ Video available here: https://www.youtube.com/watch?v=2aWu_DLAR64
+ 
 # Compiled Code and Executables
 All executables are located in the `executables` folder.
 Our architecture builds upon shared components:
