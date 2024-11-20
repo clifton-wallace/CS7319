@@ -122,6 +122,17 @@ class LoginRequest {
 	- String emailAddress
 	- String password
 
+
+	+ getEmailAddress(): String
+	+ getPassword(): String
+}
+
+class UserDto {
+	- String emailAddress
+	- String password
+        - String role
+
+        + getRole(): String
 	+ getEmailAddress(): String
 	+ getPassword(): String
 }
@@ -129,6 +140,7 @@ class LoginRequest {
 UserController --> UserService: "uses"
 UserController --> User: "returns"
 UserController --> LoginRequest: "accepts"
+UserController --> UserDto: "accepts"
 
 UserService --> User: "manages"
 UserService --> LoginRequest: "accepts"
